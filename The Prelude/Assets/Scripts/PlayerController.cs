@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _playerRigidbody2D;
     private Animator _playerAnimator;
-    private float _playerSpeed;
+    [SerializeField] private float _playerSpeed;
     private Vector2 _playerDirection;
     // Start is called before the first frame update
     void Start()
@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         _playerDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        _playerDirection.Normalize();
 
         if (_playerDirection.sqrMagnitude > 0 )
         {
