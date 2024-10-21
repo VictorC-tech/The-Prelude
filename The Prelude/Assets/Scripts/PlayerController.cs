@@ -7,10 +7,14 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _playerRigidbody2D;
     private Animator _playerAnimator;
+<<<<<<< HEAD
     [SerializeField]
     private float _playerSpeed;
     private float _playerInitialSpeed;
     public float _playerRunSpeed;
+=======
+    [SerializeField] private float _playerSpeed;
+>>>>>>> ab36ac31b5c74359cc70f45508500d1ac0e3c639
     private Vector2 _playerDirection;
     // Start is called before the first frame update
     void Start()
