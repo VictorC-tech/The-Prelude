@@ -1,22 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public int health, maxHealth = 3;
     private Rigidbody2D _playerRigidbody2D;
-    private Animator _playerAnimator;
+    public Animator _playerAnimator;
     [SerializeField]
     private float _playerSpeed;
     private float _playerInitialSpeed;
     [SerializeField]
     private float _playerRunSpeed;
     private Vector2 _playerDirection;
-    private bool _isAttacking = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        health = maxHealth;
         _playerRigidbody2D = GetComponent<Rigidbody2D>();
         _playerAnimator = GetComponent<Animator>();
         _playerInitialSpeed = _playerSpeed;
@@ -26,7 +29,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerRun();
-        onAttack();
     }
 
     void FixedUpdate()
@@ -45,12 +47,7 @@ public class PlayerController : MonoBehaviour
         {
             _playerAnimator.SetInteger("Movimento", 0);
         }
-        
-        if(_isAttacking)
-        {
-            
-            _playerAnimator.SetInteger("Movimento", 2);
-        }
+
     }
 
     void MovePlayer()
@@ -70,17 +67,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void onAttack()
+    public void TakeDamage(int amount)
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        health -= amount;
+        if(health<=0)
         {
-            _isAttacking = true;
+           _playerAnimator.SetBool("IsDead", true);
             _playerSpeed = 0;
-        }
-        if (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0))
-        {
-            _isAttacking = false;
-            _playerSpeed = _playerInitialSpeed;
         }
     }
 }

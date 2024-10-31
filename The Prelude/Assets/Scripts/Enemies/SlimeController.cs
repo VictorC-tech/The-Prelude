@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SlimeController : MonoBehaviour
 {
+    public float health, maxhealth = 3;
     public float _movespeedEnemy = 3.5f;
     private Vector2 _enemyDirection;
     private Rigidbody2D _enemyRigidbody2D;
@@ -14,6 +15,7 @@ public class SlimeController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        health = maxhealth;
         _enemyRigidbody2D = GetComponent<Rigidbody2D>();
         _enemyAnimator = GetComponent<Animator>();
     }
@@ -41,6 +43,29 @@ public class SlimeController : MonoBehaviour
         else
         {
             _enemyAnimator.SetInteger("Movimento", 0);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Player")
+        {
+            var healthComponent = collision.GetComponent<PlayerController>();
+            if(healthComponent != null)
+            {
+                healthComponent.TakeDamage(1);
+            }
+        }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        health -= amount;
+        if(health<=0)
+        {
+           _enemyAnimator.SetBool("IsDead", true);
+           Destroy(gameObject, 0.4f);
+
         }
     }
 }
